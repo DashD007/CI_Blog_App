@@ -8,7 +8,7 @@
 	<section class="section">
 		<div class="container" style="margin-top:-50px;">
 			<div style="display:flex;flex-direction:row; justify-content: space-between; align-items: center;">
-				<?php if(isset(auth()->user)): ?>
+				<?php if(isset(auth()->user()->id)): ?>
 					<?php if(in_array("blog.create",session()->permissions)): ?>
 						<a class="btn btn-danger mb-2" href="<?php echo base_url("/blog/create/view")?>">Add your blog</a>
 					<?php endif; ?>
@@ -26,7 +26,7 @@
 						<div class="text">
 							<div style="display:flex;flex-direction:row; justify-content: space-between;">
 								<span class="date"><?= $post['created_at'] ?></span>
-								<?php if(isset(auth()->user)): ?>
+								<?php if(isset(auth()->user()->id)): ?>
 									<?php if(auth()->user()->id == $post['publishedBy']):?>
 										<div style="display:flex;flex-direction:row;gap:10px">		
 											<?php if(in_array("blog.update",session()->permissions)): ?>					
