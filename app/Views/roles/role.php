@@ -25,45 +25,51 @@
             <?php endif; ?>
             <div style="display:flex;flex-direction:row;justify-content:space-between; align-items: center; margin-bottom:5px;">
                 <h3 class="mb-3" style="color:#fff">Role Master (<?= sizeof($roles) ?>)</h3>
-                <a href="<?= base_url('/role/create') ?>" 
-                style="border:1px solid #fff;border-radius:50%; width:40px;height:40px;text-align:center; font-size:24px; color:red">+</a>
+                <?php if(in_array("role.create",session()->permissions)): ?>
+                    <a href="<?= base_url('/role/create') ?>" style="border:1px solid #fff;border-radius:50%; width:40px;height:40px;text-align:center; font-size:24px; color:red">+</a>
+                <?php endif; ?>
             </div>
-            
-			<table class="table" style="border-radius:10px; overflow: hidden;" id="roleTable">
-                <thead class="table-light">
-                <tr>
-                    <th>S no.</th>
-                    <th>Name</th>
-                    <th>Created At</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody class="table-light">
-                <?php foreach($roles as $i => $role): ?>
+            <?php if(in_array("role.list",session()->permissions)): ?>
+                <table class="table" style="border-radius:10px; overflow: hidden;" id="roleTable">
+                    <thead class="table-light">
                     <tr>
-                    <td><?= ++$i?></td>
-                    <td><?= $role->name ?></td>
-                    <td><?= $role->created_at ?></td>
-                    <td>
-                        <div style="display:flex;flex-direction:row;gap:10px">									
-                            <button 
-                                class="btn btn-warning " 
-                                style="height:30px; width:30px; display:flex;align-items:center;justify-content:center" 
-                                onclick="window.location.href='<?= base_url('/role/update/' . $role->id .' '); ?>'">
-                                <i class="bi bi-pencil"></i>
-                            </button>
-                            <button 
-                                class="btn btn-danger " 
-                                style="height:30px; width:30px; display:flex;align-items:center;justify-content:center" 
-                                onclick="window.location.href='<?= base_url('/role/delete/' . $role->id); ?>'">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        </div>
-                    </td>
+                        <th>S no.</th>
+                        <th>Name</th>
+                        <th>Created At</th>
+                        <th></th>
                     </tr>
-                <?php endforeach; ?>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody class="table-light">
+                    <?php foreach($roles as $i => $role): ?>
+                        <tr>
+                        <td><?= ++$i?></td>
+                        <td><?= $role->name ?></td>
+                        <td><?= $role->created_at ?></td>
+                        <td>
+                            <div style="display:flex;flex-direction:row;gap:10px">	
+                                <?php if(in_array("role.update",session()->permissions)): ?>								
+                                    <button 
+                                        class="btn btn-warning " 
+                                        style="height:30px; width:30px; display:flex;align-items:center;justify-content:center" 
+                                        onclick="window.location.href='<?= base_url('/role/update/' . $role->id .' '); ?>'">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                <?php endif; ?>
+                                <?php if(in_array("role.delete",session()->permissions)): ?>
+                                    <button 
+                                        class="btn btn-danger " 
+                                        style="height:30px; width:30px; display:flex;align-items:center;justify-content:center" 
+                                        onclick="window.location.href='<?= base_url('/role/delete/' . $role->id); ?>'">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                <?php endif; ?>
+                            </div>
+                        </td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+            <?php endif; ?>
 		</div>
 	</section>
 	<!-- End retroy layout blog posts -->

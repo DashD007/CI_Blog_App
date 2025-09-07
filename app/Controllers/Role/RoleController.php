@@ -23,6 +23,9 @@ class RoleController extends BaseController
     }
 
     public function createView(){
+        if(!isset(auth()->user()->id)){
+            return redirect()->to(base_url("/login"));
+        }
         return view("roles/create");
     }
 
@@ -76,6 +79,10 @@ class RoleController extends BaseController
     }
 
     public function updateView($id){
+        if(!isset(auth()->user()->id)){
+            return redirect()->to(base_url("/login"));
+        }
+        
         $role = new Role();
         $permission = new Permission();
 

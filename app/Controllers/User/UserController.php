@@ -34,12 +34,21 @@ class UserController extends BaseController
     }
 
     public function createView(){
+        if(!isset(auth()->user()->id)){
+            return redirect()->to(base_url("/login"));
+        }
+
         $role = new Role();
         $roles = $role->asObject()->findAll();
         return view('users/create',compact('roles'));
     }
 
     public function create(){
+
+        if(!isset(auth()->user()->id)){
+            return redirect()->to(base_url("/login"));
+        }
+
         // Check if registration is allowed
 
         $users = $this->getUserProvider();
@@ -121,7 +130,10 @@ class UserController extends BaseController
 
 
     public function updateView($id){
-        
+        if(!isset(auth()->user()->id)){
+            return redirect()->to(base_url("/login"));
+        }
+
         $user = $this->db->query('SELECT u.id,u.username as `username` ,ai.secret as `email`,u.role_id as `role_id` FROM `users` u INNER JOIN `auth_identities` ai on u.id = ai.user_id where ai.type = "email_password" and u.id = ' . "$id" . ';')->getResult()[0];
 
         $role = new Role();
@@ -131,7 +143,10 @@ class UserController extends BaseController
     }
 
     public function update($id){
-        
+        if(!isset(auth()->user()->id)){
+            return redirect()->to(base_url("/login"));
+        }
+
         $email = $this->request->getPost('email');
         $username = $this->request->getPost('username');
         $roleId = $this->request->getPost('roleId');
@@ -143,6 +158,10 @@ class UserController extends BaseController
     }
 
     public function delete($id){
+        if(!isset(auth()->user()->id)){
+            return redirect()->to(base_url("/login"));
+        }
+        
         $this->db->query("DELETE * FROM  users WHERE users.id = '{$id}' ;");
         $this->db->query("DELETE * FROM `auth_identities` user_id = '{$id}' ;");
 

@@ -22,6 +22,9 @@ class CategoryController extends BaseController
     }
 
     public function createView(){
+        if(!isset(auth()->user()->id)){
+            return redirect()->to(base_url("/login"));
+        }
         return view("categories/create");
     }
 

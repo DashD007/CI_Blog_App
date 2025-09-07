@@ -24,57 +24,66 @@
             <?php endif; ?>
             <div style="display:flex;flex-direction:row;justify-content:space-between; align-items: center; margin-bottom:5px;">
                 <h3 class="mb-3" style="color:#fff">Category Master (<?= sizeof($categories) ?>)</h3>
-                <a href="<?= base_url('category/create'); ?>" style="border:1px solid #fff;border-radius:50%; width:40px;height:40px;text-align:center; font-size:24px; color:red">+</a>
+                <?php if(in_array("category.create",session()->permissions)): ?>
+                    <a href="<?= base_url('category/create'); ?>" style="border:1px solid #fff;border-radius:50%; width:40px;height:40px;text-align:center; font-size:24px; color:red">+</a>
+                <?php endif; ?>
             </div>
-			<table class="table mt-2" style="border-radius:10px; overflow: hidden;" id="categoryTable">
-                <thead class="table-light">
-                <tr>
-                    <th>S no.</th>
-                    <th>Name</th>
-                    <th>Created At</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody class="table-light">
-                <?php foreach($categories as $i => $category): ?>
+            <?php if(in_array("category.list",session()->permissions)): ?>
+                <table class="table mt-2" style="border-radius:10px; overflow: hidden;" id="categoryTable">
+                    <thead class="table-light">
                     <tr>
-                    <td><?= ++$i?></td>
-                    <td><?= $category->name ?></td>
-                    <td><?= $category->created_at ?></td>
-                    <td>
-                        <div style="display:flex;flex-direction:row;gap:10px">									
-                            <button 
-                                class="btn btn-warning " 
-                                style="height:30px; width:30px; display:flex;align-items:center;justify-content:center" 
-                                onclick="window.location.href='<?= base_url('/category/update/' . $category->id .' '); ?>'">
-                                <i class="bi bi-pencil"></i>
-                            </button>
-                            <button 
-                                class="btn btn-danger " 
-                                style="height:30px; width:30px; display:flex;align-items:center;justify-content:center" 
-                                onclick="window.location.href='<?= base_url('/category/delete/' . $category->id); ?>'">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        </div>
-                    </td>
+                        <th>S no.</th>
+                        <th>Name</th>
+                        <th>Created At</th>
+                        <th></th>
                     </tr>
-                <?php endforeach; ?>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody class="table-light">
+                    <?php foreach($categories as $i => $category): ?>
+                        <tr>
+                        <td><?= ++$i?></td>
+                        <td><?= $category->name ?></td>
+                        <td><?= $category->created_at ?></td>
+                        <td>
+                            <div style="display:flex;flex-direction:row;gap:10px">		
+                                <?php if(in_array("category.update",session()->permissions)): ?>							
+                                    <button 
+                                        class="btn btn-warning " 
+                                        style="height:30px; width:30px; display:flex;align-items:center;justify-content:center" 
+                                        onclick="window.location.href='<?= base_url('/category/update/' . $category->id .' '); ?>'">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                <?php endif; ?>
+                                <?php if(in_array("category.delete",session()->permissions)): ?>
+                                    <button 
+                                        class="btn btn-danger " 
+                                        style="height:30px; width:30px; display:flex;align-items:center;justify-content:center" 
+                                        onclick="window.location.href='<?= base_url('/category/delete/' . $category->id); ?>'">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                <?php endif; ?>
+                            </div>
+                        </td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+            <?php endif ?>
 		</div>
 	</section>
 	<!-- End retroy layout blog posts -->
 
-
-<script>
-    $(document).ready(function() {
-        $('#categoryTable').DataTable({
-            pageLength: 10,
-            lengthChange:false,
-            
-        }); // Enables pagination + search
-    });
-</script>
+<?php if(in_array("category.list",session()->permissions)): ?>
+    <script>
+        $(document).ready(function() {
+            $('#categoryTable').DataTable({
+                pageLength: 10,
+                lengthChange:false,
+                
+            }); // Enables pagination + search
+        });
+    </script>
+<?php endif; ?>
 
 <?php $this->endsection() ?>
 
