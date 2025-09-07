@@ -1,0 +1,21 @@
+.multiselect-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .35rem;
+  padding: .5rem .25rem;
+  min-height: 45px;
+  cursor: pointer;
+}
+.chip {
+  background: #3c3c3c;
+  color: white;
+  padding: 0px .5rem;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: .25rem;
+}
+.chip .remove {
+  cursor: pointer;
+  font-size: .9rem;
+}
